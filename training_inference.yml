@@ -18,9 +18,9 @@ outputs:
   model_output:
     type: uri_folder
 code: ./train_src
-environment: azureml:AzureML-sklearn-0.24-ubuntu18.04-py37-cpu@latest
+environment: azureml:environment-test@latest
 command: >-
-  python train.py 
+  python training_inference.py 
   --training_data ${{inputs.training_data}} 
   --max_epocs ${{inputs.max_epocs}}   
   --learning_rate ${{inputs.learning_rate}} 
