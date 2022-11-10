@@ -70,7 +70,7 @@ def dataVolumeConversion(val):
         return int(val[:-1])*1000000
  
 # XCa change /dbfs/FileStore/tables/TrainingDataSetCWOMongoDB18SEPRun2search5ShreeSave
-data = pd.read_csv(arr_files[0])
+data = pd.read_csv(os.path.join(args.training_data, arr_files[0]))
 
 print(data)
 data.datavolume =  data.datavolume.apply(dataVolumeConversion)
@@ -98,4 +98,4 @@ print("Mean Absolute Error: ", mean_absolute_error(y_test, y_predict))
 # Here only output a dummy data for demo.
 curtime = datetime.now().strftime("%b-%d-%Y %H:%M:%S")
 model = f"This is a dummy model with id: {str(uuid4())} generated at: {curtime}\n"
-(Path(args.model_output) / "decisionTree20Sep.sav").write_bytes(regressor)
+saveModel((Path(args.model_output) / "decisionTree20Sep.sav"),regressor)
