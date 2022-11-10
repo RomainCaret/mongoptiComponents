@@ -13,6 +13,8 @@ from sklearn.metrics import (accuracy_score, mean_absolute_error,
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeRegressor
 from sklearn import tree
+import mlflow
+import mlflow.sklearn
 
 # Handling the parsing of the arguments/parameters
 parser = argparse.ArgumentParser("train")
@@ -21,6 +23,8 @@ parser.add_argument("--max_epocs", type=int, help="Max # of epocs for the traini
 parser.add_argument("--learning_rate", type=float, help="Learning rate")
 parser.add_argument("--learning_rate_schedule", type=str, help="Learning rate schedule")
 parser.add_argument("--model_output", type=str, help="Path of output model")
+
+registered_model_name="decisionTree20Sep.sav"
 
 args = parser.parse_args()
 
@@ -42,20 +46,6 @@ arr_files = os.listdir(args.training_data)
 print(arr_files)
 
 # arr_files contains the list of files in the mounted path
-
-
-
-# PLOTTING THE ACTUALL VS PREDICTED TIME.
-def actual_vs_predicted(index, actual, predicted, text="CompletionTime"):
-
-
-    plt.scatter(index, actual,marker="D")
-    plt.scatter(index,predicted, color="r",marker="*")
-    plt.legend(["Actual", "Predicted"])
-    plt.title("Actual versus Predicted values for {}".format(text))
-    plt.xlabel("Index", fontsize=20)
-    plt.ylabel("completionTime", fontsize=20)
-    return plt.figure()
 
 def saveModel(path, model):
     pickle.dump(model, open(path, 'wb'))
@@ -99,3 +89,23 @@ print("Mean Absolute Error: ", mean_absolute_error(y_test, y_predict))
 curtime = datetime.now().strftime("%b-%d-%Y %H:%M:%S")
 model = f"This is a dummy model with id: {str(uuid4())} generated at: {curtime}\n"
 saveModel((Path(args.model_output) / "decisionTree20Sep.sav"),regressor)
+
+##########################
+#<save and register model>
+##########################
+# Registering the model to the workspace
+print("Registering the model via MLFlow")
+mlflow.sklearn.log_model(
+    sk_model=regressor,
+    registered_model_name=registered_model_name,
+    artifact_path=registered_model_name,
+)
+
+# Saving the model to a file
+mlflow.sklearn.save_model(
+    sk_model=regressor,
+    path=os.path.join(registered_model_name, registered_model_name),
+)
+###########################
+#</save and register model>
+###########################

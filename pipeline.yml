@@ -23,7 +23,6 @@ jobs:
     inputs:
       training_data: 
         type: uri_folder
-        path: ./data
       max_epocs: ${{parent.inputs.pipeline_job_training_max_epocs}}
       learning_rate: ${{parent.inputs.pipeline_job_training_learning_rate}}
       learning_rate_schedule: ${{parent.inputs.pipeline_job_learning_rate_schedule}}
@@ -38,7 +37,6 @@ jobs:
       model_input: ${{parent.jobs.train_job.outputs.model_output}}
       test_data: 
         type: uri_folder
-        path: ./data
     outputs:
       score_output: 
         mode: upload
