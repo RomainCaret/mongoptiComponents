@@ -22,7 +22,7 @@ parser.add_argument("--training_data", type=str, help="Path to training data")
 parser.add_argument("--max_epocs", type=int, help="Max # of epocs for the training")
 parser.add_argument("--learning_rate", type=float, help="Learning rate")
 parser.add_argument("--learning_rate_schedule", type=str, help="Learning rate schedule")
-parser.add_argument("--model_output", type=str, help="Path of output model")
+parser.add_argument("--eval_output", type=str, help="Path of output model")
 
 registered_model_name="decisionTree20Sep.sav"
 
@@ -35,7 +35,7 @@ lines = [
     f"Max epocs: {args.max_epocs}",
     f"Learning rate: {args.learning_rate}",
     f"Learning rate: {args.learning_rate_schedule}",
-    f"Model output path: {args.model_output}",
+    f"Eval output path: {args.eval_output}",
 ]
 
 for line in lines:
@@ -87,8 +87,11 @@ print("Mean Absolute Error: ", mean_absolute_error(y_test, y_predict))
 # Do the train and save the trained model as a file into the output folder.
 # Here only output a dummy data for demo.
 curtime = datetime.now().strftime("%b-%d-%Y %H:%M:%S")
-model = f"This is a dummy model with id: {str(uuid4())} generated at: {curtime}\n"
-saveModel((Path(args.model_output) / "decisionTree20Sep.sav"),regressor)
+# model = f"This is a dummy model with id: {str(uuid4())} generated at: {curtime}\n"
+# saveModel((Path(args.model_output) / "decisionTree20Sep.sav"),regressor)
+# Output of our component
+eval_msg = f"Eval done at {curtime} with a mean absolute error of {mean_absolute_error(y_test, y_predict)}\n"
+(Path(args.eval_output) / "eval_result.txt").write_text(eval_msg)
 
 ##########################
 #<save and register model>
