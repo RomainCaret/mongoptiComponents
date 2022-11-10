@@ -25,4 +25,4 @@ command: >-
   --max_epocs ${{inputs.max_epocs}}   
   --learning_rate ${{inputs.learning_rate}} 
   --learning_rate_schedule ${{inputs.learning_rate_schedule}} 
-  --eval_output ${{outputs.model_output}}
+  --eval_output ${{outputs.eval_output}}

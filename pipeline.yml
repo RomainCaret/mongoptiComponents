@@ -27,4 +27,4 @@ jobs:
       learning_rate: ${{parent.inputs.pipeline_job_training_learning_rate}}
       learning_rate_schedule: ${{parent.inputs.pipeline_job_learning_rate_schedule}}
     outputs:
-      eval_output: ${{parent.outputs.pipeline_job_trained_model}}
+      eval_output: ${{parent.outputs.pipeline_job_evaluation_report}}
